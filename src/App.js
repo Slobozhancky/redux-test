@@ -2,7 +2,11 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 function App() {
-    let store = useSelector((state) => state);
+
+    console.log(useSelector(state => state));
+
+    let cashValue = useSelector((state) => state.cashReducer);
+
     const dispatch = useDispatch();
 
     let inp = React.useRef();
@@ -17,7 +21,7 @@ function App() {
     return (
         <div className="App">
             <h1>Hello</h1>
-            <p>{store.cash}</p>
+            <p>{cashValue.cash}</p>
             <input ref={inp} type="text" />
             <button onClick={() => addCash(+inp.current.value)}>
                 Add cash

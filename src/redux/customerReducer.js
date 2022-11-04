@@ -2,8 +2,7 @@ let defaultState = {
     customers: [],
 };
 
-let customerReducer = (state = defaultState, action) => {
-    console.log({ ...state });
+export let customerReducer = (state = defaultState, action) => {
     if (action.type === "ADD_CUSTOMER") {
         return { ...state, cash: state.cash + action.payload };
     } else if (action.type === "GET_CUSTOMER") {
@@ -12,5 +11,3 @@ let customerReducer = (state = defaultState, action) => {
 
     return state;
 };
-
-export default customerReducer;
