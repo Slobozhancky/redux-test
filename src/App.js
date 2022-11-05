@@ -1,13 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { addCashAction, getCashAction } from "./redux/cashReducer";
+import {
+    addCustomerAction,
+    removeCustomerAction,
+} from "./redux/customerReducer";
 
 function App() {
-    console.log(useSelector((state) => state));
-
     let cashValue = useSelector((state) => state.cashReducer);
     let arrOfCustomers = useSelector((state) => state.customerReducer);
-
-    console.log(arrOfCustomers);
 
     const dispatch = useDispatch();
 
@@ -15,21 +16,20 @@ function App() {
     let inpForCustomers = React.useRef();
 
     function addCash(cash) {
-        dispatch({ type: "ADD_CASH", payload: cash });
+        dispatch(addCashAction(cash));
     }
 
     function getCash(cash) {
-        dispatch({ type: "GET_CASH", payload: cash });
+        dispatch(getCashAction(cash));
     }
 
     function addCustomer(customer) {
         let name = { name: customer, id: new Date() };
-        dispatch({ type: "ADD_CUSTOMER", payload: name });
+        dispatch(addCustomerAction(name));
     }
 
     function removeCustomer(customer) {
-        console.log(customer);
-        dispatch({ type: "REMOVE_CUSTOMER", payload: customer.id})
+        dispatch(removeCustomerAction(customer));
     }
 
     return (
@@ -52,7 +52,12 @@ function App() {
                     <li>Массив пустой</li>
                 ) : (
                     arrOfCustomers.customers.map((customer, index) => (
-                        <li onClick={() => removeCustomer(customer)} key={customer.name + index}>{customer.name}</li>
+                        <li
+                            onClick={() => removeCustomer(customer.id)}
+                            key={customer.name + index}
+                        >
+                            {customer.name}
+                        </li>
                     ))
                 )}
             </ul>
