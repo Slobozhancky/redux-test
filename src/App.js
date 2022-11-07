@@ -5,12 +5,26 @@ import {
     addCustomerAction,
     removeCustomerAction,
 } from "./redux/customerReducer";
+import { requestingData, receivedData } from "./redux/asyncDataReducer";
 
 function App() {
     let cashValue = useSelector((state) => state.cashReducer);
     let arrOfCustomers = useSelector((state) => state.customerReducer);
+    let asyncResponse = useSelector((state) => state.asyncDataReducer);
 
     const dispatch = useDispatch();
+
+    const handleAsync = () => {
+        return function () {
+            dispatch(requestingData());
+            setTimeout(function () {
+                let data = {
+                    users: ["Jeff", "William", "Alice"],
+                };
+                dispatch(receivedData(data));
+            }, 2500);
+        };
+    };
 
     let inpForCash = React.useRef();
     let inpForCustomers = React.useRef();
@@ -64,6 +78,13 @@ function App() {
             <button onClick={() => addCustomer(inpForCustomers.current.value)}>
                 Add customer
             </button>
+            <h2>Get request from async operation</h2>
+            <ul>
+                {asyncResponse.users.map((elem, index) => (
+                    <li key={elem + index}>{elem}</li>
+                ))}
+            </ul>
+            <button onClick={handleAsync()}>Get async</button>
         </div>
     );
 }
